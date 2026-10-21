@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recebemos seu pedido | João dos Granitos</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#1F3BB3">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@300;400;500;600&display=swap">
+<link rel="stylesheet" href="/assets/css/style.css">
+<style>
+.ok{min-height:100vh;display:grid;place-items:center;padding:40px 16px;background:radial-gradient(900px 400px at 80% -10%,rgba(45,79,224,.12),transparent 60%),var(--porcelana)}
+.ok__box{max-width:560px;text-align:center}
+.ok__icone{width:84px;height:84px;margin:0 auto 28px;border-radius:50%;background:var(--royal);display:grid;place-items:center;box-shadow:0 20px 40px -18px rgba(31,59,179,.8)}
+.ok__icone svg{width:40px;height:40px}
+.ok__icone path{stroke-dasharray:30;stroke-dashoffset:30;animation:risco .7s .2s ease forwards}
+@keyframes risco{to{stroke-dashoffset:0}}
+.ok h1{font-weight:500;font-size:clamp(2rem,5vw,2.8rem);letter-spacing:-.035em}
+.ok p{color:var(--aco);margin:16px auto 32px;max-width:42ch}
+.ok__barra{height:4px;border-radius:4px;background:var(--veio);overflow:hidden;margin:0 auto 28px;max-width:280px}
+.ok__barra span{display:block;height:100%;width:0;background:var(--royal);animation:enche 2.5s linear forwards}
+@keyframes enche{to{width:100%}}
+.ok__voltar{display:inline-block;margin-top:20px;color:var(--aco);font-size:.95rem}
+</style>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-XXXXXXX');</script>
+</head>
+<body>
+<main class="ok">
+  <div class="ok__box">
+    <div class="ok__icone" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <h1>Recebemos seu pedido</h1>
+    <p>Estamos abrindo o WhatsApp com as suas informações. É só enviar a mensagem que nossa equipe continua o atendimento por lá.</p>
+    <div class="ok__barra" aria-hidden="true"><span></span></div>
+    <a class="btn btn--royal" id="ir-wa" href="https://wa.me/5521997148905?text=Ol%C3%A1%2C%20acabei%20de%20preencher%20o%20formul%C3%A1rio%20no%20site.%20Aguardo%20mais%20informa%C3%A7%C3%B5es.">Abrir WhatsApp agora</a><br>
+    <a class="ok__voltar" href="/">Voltar para o site</a>
+  </div>
+</main>
+<script>
+(function(){
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({event:'form_submit_obrigado'});
+  var padrao = document.getElementById('ir-wa').href, url = padrao;
+  try {
+    var q = new URLSearchParams(location.search).get('wa') || sessionStorage.getItem('jdg_wa');
+    if (q && q.indexOf('https://wa.me/5521997148905') === 0) url = q;
+  } catch (e) {}
+  document.getElementById('ir-wa').href = url;
+  setTimeout(function(){ window.location.href = url; }, 2500);
+})();
+</script>
+</body>
+</html>
