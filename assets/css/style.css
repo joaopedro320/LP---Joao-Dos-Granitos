@@ -17,7 +17,7 @@
 }
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--porcelana);color:var(--tinta);font:400 1.0625rem/1.65 var(--f-txt);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{margin:0;overflow-wrap:break-word;background:var(--porcelana);color:var(--tinta);font:400 1.0625rem/1.65 var(--f-txt);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 img,video{display:block;max-width:100%;height:auto}
 a{color:inherit}
 h1,h2,h3{font-family:var(--f-tit);margin:0;line-height:1.1;letter-spacing:-.02em}
@@ -46,6 +46,8 @@ p{margin:0}
 .topo.is-solido{background:rgba(242,244,248,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--veio)}
 .topo__in{display:flex;align-items:center;gap:28px;height:76px}
 .marca{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--royal)}
+.marca__logo{height:46px;width:auto;display:block}
+.rodape .marca__logo{height:58px}
 .marca__icone{width:34px;height:34px;flex:none}
 .marca__nome{font:600 1.12rem/1 var(--f-tit);color:var(--tinta);letter-spacing:-.02em}
 .marca__nome span{font-weight:300}
@@ -72,7 +74,7 @@ p{margin:0}
 .hero__local{grid-column:1/-1;display:inline-flex;align-items:center;gap:8px;color:var(--aco);font-size:.95rem}
 .hero__local svg{width:18px;height:18px;color:var(--royal)}
 .hero__titulo{font-weight:300;font-size:clamp(2.6rem,6.2vw,5.6rem);line-height:.98;letter-spacing:-.045em}
-.hero__titulo .linha{white-space:nowrap}
+@media (min-width:861px){.hero__titulo .linha{white-space:nowrap}}
 .hero__titulo .linha{display:block;overflow:hidden;padding-bottom:.06em}
 .hero__titulo .linha>span{display:inline-block}
 .hero__titulo .linha:nth-child(2)>span{font-weight:500;color:var(--royal)}
@@ -299,7 +301,7 @@ p{margin:0}
 }
 @media (max-width:860px){
   .hero{padding-top:104px}
-  .hero__texto,.cabeca,.cabeca--linha,.dif,.qz,.dv,.oc,.sv,.reels,.feiras__cabeca{grid-template-columns:1fr}
+  .hero__texto,.cabeca,.cabeca--linha,.dif,.qz,.dv,.oc,.sv,.reels,.feiras__cabeca{grid-template-columns:minmax(0,1fr)}
   .dif__marco,.dv__lado{position:static}
   .cavalete{margin-top:44px}
   .cavalete__trilho{justify-content:flex-start;overflow-x:auto;scrollbar-width:none;padding-bottom:40px;padding-top:10px;scroll-snap-type:x mandatory}
@@ -312,15 +314,17 @@ p{margin:0}
   .reels__lista{grid-template-columns:repeat(4,62vw);overflow-x:auto;scrollbar-width:none;margin:0 calc(-1*clamp(16px,4vw,40px));padding:0 clamp(16px,4vw,40px)}
   .reels__lista::-webkit-scrollbar{display:none}
   .reels__lista video:nth-child(even){margin-top:0}
-  .dif__lista{grid-template-columns:1fr}
+  .dif__lista{grid-template-columns:minmax(0,1fr)}
   .materiais{justify-content:flex-start;gap:6px 40px}
 }
 @media (max-width:560px){
+  .marca__logo{height:38px}
+  .hero__titulo{font-size:clamp(2.3rem,11vw,3rem)}
   .topo__cta{display:none}
   .menu-btn{margin-left:auto}
   .hero__acoes .btn{flex:1 1 100%}
   .etapas{grid-template-columns:1fr 1fr;column-gap:16px}
-  .form{grid-template-columns:1fr}
+  .form{grid-template-columns:minmax(0,1fr)}
   .galeria{columns:2;column-gap:10px}
   .foto{margin-bottom:10px}
   .oc__dados div{grid-template-columns:1fr;gap:2px}
