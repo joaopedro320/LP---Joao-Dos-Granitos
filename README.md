@@ -33,7 +33,7 @@ Produto contratado: Estruturação de Marca (Estrutura Google + Social Media Orb
 
 - [ ] **GTM**: trocar `GTM-XXXXXXX` em `index.html` e `obrigado.html` pelo ID real.
 - [ ] **Domínio**: o cliente ainda não tem. Usei `https://www.joaodosgranitos.com.br/` como placeholder em canonical, Open Graph, JSON-LD, robots.txt e sitemap.xml. Buscar e trocar tudo se o domínio for outro.
-- [x] **Logo**: logo oficial "João dos Granitos Personalize" aplicada no header (azul-marinho), rodapé (branca), favicons (ícone do bloco) e og-image. Fonte original em PNG; se chegar o vetor (SVG/AI), dá pra trocar sem mudar layout.
+- [x] **Logo**: a pedido do cliente, a marca usada no site é só "Personalize" (ícone do bloco + Personalize + MÁRMORES • GRANITOS • QUARTZITOS), recortada da logo original (`assets/img/logo-personalize*.{png,webp}`). Header em azul-marinho, rodapé em branco. Se chegar o vetor (SVG/AI), dá pra trocar sem mudar layout.
 - [ ] **Endereço**: no JSON-LD usei só cidade, CEP (25211-010) e as coordenadas do GMN. O endereço completo (Rua Bahia, s/n, Lt 02, Qd 3) veio no bloco de dados de domínio/hospedagem; confirmar com o cliente antes de expor na página.
 - [ ] **Instagram da QH4** no rodapé: link em `https://www.instagram.com/qh4growth/`. Conferir se é o @ correto.
 - [ ] **WhatsApp**: (21) 99714-8905, conforme briefing.
@@ -48,7 +48,7 @@ Tudo veio do briefing (Google Forms respondido pela Julliana) e do resumo comerc
 - Fotos e vídeos: pasta "02. imagens" (Instagram @joaodosgranitos). As fotos de feiras ilustram a seção "Perto de quem faz o mercado de rochas", sem citar nomes.
 - "Personalize" faz parte da marca (João dos Granitos Personalize, conforme a logo). No texto da LP uso "João dos Granitos"; no JSON-LD o nome completo entra como alternateName.
 
-Direção visual: fundo claro e posicionamento "alto luxo" (marcados no briefing), tons de azul com destaque no royal (#1F3BB3). Sem fonte pedida, então Poppins (títulos) + Inter (texto). Ideia central: as fotos do hero entram como chapas inclinadas num cavalete e se endireitam ao rolar.
+Direção visual: fundo claro e posicionamento "alto luxo" (marcados no briefing), tons de azul com destaque no royal (#1F3BB3). Tipografia revisada após feedback do cliente (pediu algo mais sofisticado, com referência à Rio Mármores): Bodoni Moda (títulos, com itálico em destaque) + Jost (texto), rótulos em caixa alta espaçada acima dos títulos e botões retos. Ideia central: as fotos do hero entram como chapas inclinadas num cavalete e se endireitam ao rolar.
 
 ## Formulário
 
