@@ -3,8 +3,8 @@
   "short_name": "João dos Granitos",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#F2F4F8",
-  "theme_color": "#1F3BB3",
+  "background_color": "#0B1A33",
+  "theme_color": "#0B1A33",
   "lang": "pt-BR",
   "icons": [
     { "src": "/assets/img/icon-192.png", "sizes": "192x192", "type": "image/png" },
