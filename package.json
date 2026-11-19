@@ -1,0 +1,9 @@
+{
+  "name": "lp-joao-dos-granitos",
+  "private": true,
+  "type": "module",
+  "description": "LP João dos Granitos (QH4 Growth). Site estático + função /api/curriculo (Trabalhe Conosco).",
+  "dependencies": {
+    "@vercel/blob": "2.8.2"
+  }
+}
