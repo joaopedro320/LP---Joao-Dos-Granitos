@@ -238,6 +238,121 @@
     window.location.href = 'obrigado.html?wa=' + encodeURIComponent(url);
   });
 
+  /* Trabalhe conosco: formulário em janela; currículo sobe pra /api/curriculo e o link vai no WhatsApp */
+  var tc = document.getElementById('trabalhe-conosco');
+  if (tc && typeof tc.showModal === 'function') {
+    var tcForm = document.getElementById('form-curriculo');
+    var tcBtn = document.getElementById('tc-enviar');
+    var tcArq = document.getElementById('tc-arquivo');
+    var tcArqNome = document.getElementById('tc-arquivo-nome');
+    var tcErro = document.getElementById('tc-erro');
+    var tcTel = document.getElementById('tc-tel');
+    var TIPOS_OK = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+    var LIMITE = 4 * 1024 * 1024;
+    var origemFoco = null;
+
+    function abrirTc(e) {
+      if (e) e.preventDefault();
+      origemFoco = document.activeElement;
+      document.getElementById('tc-form-etapa').hidden = false;
+      document.getElementById('tc-ok-etapa').hidden = true;
+      tc.showModal();
+      document.getElementById('tc-nome').focus();
+      track('trabalhe_conosco_aberto', {});
+    }
+    function fecharTc() { tc.close(); }
+    tc.addEventListener('close', function () {
+      if (location.hash === '#trabalhe-conosco') history.replaceState(null, '', location.pathname + location.search);
+      if (origemFoco && origemFoco.focus) origemFoco.focus();
+    });
+    document.querySelectorAll('.js-tc').forEach(function (a) { a.addEventListener('click', abrirTc); });
+    tc.querySelector('.tc__fechar').addEventListener('click', fecharTc);
+    tc.addEventListener('click', function (e) { if (e.target === tc) fecharTc(); });
+    if (location.hash === '#trabalhe-conosco') abrirTc();
+
+    tcTel.addEventListener('input', function () {
+      var d = tcTel.value.replace(/\D/g, '').slice(0, 11), r = d;
+      if (d.length > 2) r = '(' + d.slice(0, 2) + ') ' + d.slice(2);
+      if (d.length > 6) r = '(' + d.slice(0, 2) + ') ' + d.slice(2, d.length === 11 ? 7 : 6) + '-' + d.slice(d.length === 11 ? 7 : 6);
+      tcTel.value = r;
+    });
+
+    function arquivoValido(f) {
+      if (!f) return 'Anexe seu currículo.';
+      var ext = (f.name.split('.').pop() || '').toLowerCase();
+      if (TIPOS_OK.indexOf(f.type) < 0 && ['pdf', 'doc', 'docx'].indexOf(ext) < 0) return 'O currículo precisa estar em PDF ou Word (.doc, .docx).';
+      if (f.size > LIMITE) return 'O arquivo passou de 4 MB. Envie uma versão menor, de preferência em PDF.';
+      return '';
+    }
+    tcArq.addEventListener('change', function () {
+      var f = tcArq.files[0], msg = arquivoValido(f);
+      tcArq.setCustomValidity(msg);
+      tcArqNome.textContent = f ? f.name : 'Escolher arquivo';
+      tcArq.closest('.arquivo').classList.toggle('is-ok', !!f && !msg);
+      tcArq.closest('.campo').classList.toggle('is-erro', !!msg && !!f);
+      tcErro.hidden = !msg || !f; tcErro.textContent = msg;
+    });
+    function validarTc() { tcBtn.disabled = !tcForm.checkValidity(); }
+    tcForm.addEventListener('input', validarTc);
+    tcForm.addEventListener('change', validarTc);
+
+    function tipoDoArquivo(f) {
+      if (TIPOS_OK.indexOf(f.type) >= 0) return f.type;
+      var ext = f.name.split('.').pop().toLowerCase();
+      return ext === 'pdf' ? 'application/pdf' : ext === 'doc' ? TIPOS_OK[1] : TIPOS_OK[2];
+    }
+
+    tcForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!tcForm.checkValidity()) { tcForm.reportValidity(); return; }
+      var d = new FormData(tcForm), f = tcArq.files[0];
+      if (d.get('empresa')) return; // isca preenchida: robô
+      tcBtn.classList.add('is-enviando'); tcBtn.textContent = 'Enviando currículo...';
+      tcErro.hidden = true;
+
+      var ctrl = 'AbortController' in window ? new AbortController() : null;
+      var tempo = setTimeout(function () { if (ctrl) ctrl.abort(); }, 25000);
+      fetch('/api/curriculo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/octet-stream', 'x-tipo-arquivo': tipoDoArquivo(f), 'x-nome-candidato': encodeURIComponent(d.get('nome')) },
+        body: f,
+        signal: ctrl ? ctrl.signal : undefined
+      }).then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, status: r.status, j: j }; });
+      }).then(function (r) {
+        if (r.ok && r.j.url) return concluir(d, r.j.url);
+        if (r.status === 413 || r.status === 415) {
+          tcErro.textContent = r.status === 413 ? 'O arquivo passou de 4 MB. Envie uma versão menor, de preferência em PDF.' : 'Não reconhecemos o arquivo como PDF ou Word. Confira o currículo e tente de novo.';
+          tcErro.hidden = false; resetBtn(); return;
+        }
+        concluir(d, null);
+      }).catch(function () { concluir(d, null); })
+        .then(function () { clearTimeout(tempo); });
+    });
+
+    function resetBtn() { tcBtn.classList.remove('is-enviando'); tcBtn.textContent = 'Enviar candidatura'; }
+
+    function concluir(d, url) {
+      var msg = 'Olá! Quero me candidatar a uma vaga na João dos Granitos.\n\n' +
+        '*Nome:* ' + d.get('nome') + '\n' +
+        '*E-mail:* ' + d.get('email') + '\n' +
+        '*Telefone:* ' + d.get('telefone') + '\n' +
+        (url ? '*Currículo:* ' + url : '*Currículo:* vou enviar o arquivo em anexo nesta conversa.');
+      var wa = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(msg);
+      document.getElementById('tc-wa').href = wa;
+      document.getElementById('tc-ok-txt').textContent = url
+        ? 'Seu currículo foi recebido. Agora é só enviar a mensagem que vai abrir no WhatsApp, já com seus dados e o link do currículo.'
+        : 'Vamos abrir o WhatsApp com seus dados. Antes de enviar a mensagem, anexe o arquivo do currículo na conversa (no clipe ou no +).';
+      document.getElementById('tc-form-etapa').hidden = true;
+      document.getElementById('tc-ok-etapa').hidden = false;
+      document.getElementById('tc-ok-titulo').focus();
+      track('candidatura_enviada', { curriculo: url ? 'link' : 'anexo_no_whatsapp' });
+      resetBtn(); tcForm.reset(); tcArqNome.textContent = 'Escolher arquivo';
+      tcArq.closest('.arquivo').classList.remove('is-ok'); validarTc();
+    }
+    document.getElementById('tc-wa').addEventListener('click', function () { track('whatsapp_click', { local: 'trabalhe_conosco' }); });
+  }
+
   var ano = document.getElementById('ano');
   if (ano) ano.textContent = new Date().getFullYear();
 })();

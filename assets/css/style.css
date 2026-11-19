@@ -356,3 +356,34 @@ p{margin:0}
   .rv{opacity:1;transform:none}
   .js .hero__titulo .linha>span,.js .cavalete .chapa{transform:none;opacity:1;translate:none}
 }
+
+/* Trabalhe conosco */
+.rodape__tc{max-width:280px}
+.rodape__tc-titulo{font:400 1.35rem/1.2 var(--f-tit);color:#F7F2E6}
+.rodape__tc .btn{margin-top:6px;color:var(--ouro-claro)}
+.tc{width:min(540px,calc(100vw - 32px));max-height:calc(100dvh - 32px);overflow:auto;padding:clamp(24px,4vw,40px);border:1px solid rgba(198,161,91,.45);border-radius:10px;color:var(--tinta);background:var(--branco);box-shadow:0 40px 90px -30px rgba(0,0,0,.6)}
+.tc::backdrop{background:rgba(8,18,38,.78);backdrop-filter:blur(4px)}
+.tc[open]{animation:pnIn .35s var(--ease)}
+.tc__fechar{position:absolute;top:12px;right:12px;width:44px;height:44px;border:0;border-radius:50%;background:transparent;font-size:1.8rem;line-height:1;color:var(--aco);cursor:pointer;transition:background .2s,color .2s}
+.tc__fechar:hover{background:var(--ouro-tinta);color:var(--tinta)}
+.tc__titulo{font-weight:300;font-size:clamp(2rem,5vw,2.6rem);padding-right:40px}
+.tc__titulo::after{content:"";display:block;width:48px;height:1px;background:var(--grad-ouro);margin-top:16px}
+.tc__titulo:focus{outline:none}
+.tc__sub{color:var(--aco);margin:16px 0 24px}
+.tc__form{display:grid;gap:16px}
+.campo__rotulo{font:500 .92rem/1.2 var(--f-ui);letter-spacing:.02em}
+.campo__ajuda{color:var(--aco);font-size:.82rem}
+.arquivo{display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px dashed #C7CBD3;border-radius:6px;background:var(--porcelana);cursor:pointer;transition:border-color .2s,background .2s}
+.arquivo:hover,.arquivo:focus-within{border-color:var(--ouro);background:var(--ouro-tinta)}
+.arquivo input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.arquivo svg{width:26px;height:26px;color:var(--ouro-escuro);flex:none}
+.arquivo__txt{font-size:.95rem;color:var(--aco);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.arquivo.is-ok{border-style:solid;border-color:var(--ouro)}
+.arquivo.is-ok .arquivo__txt{color:var(--tinta);font-weight:500}
+.campo.is-erro .arquivo{border-color:#C23B3B}
+.aceite{display:flex;gap:12px;align-items:flex-start;font-size:.9rem;color:var(--aco);cursor:pointer}
+.aceite input{width:18px;height:18px;margin-top:3px;accent-color:var(--ouro-escuro);flex:none}
+.isca{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.tc__erro{color:#B23434;font-size:.9rem;margin:0}
+.tc .btn.is-enviando{pointer-events:none;opacity:.75}
+@media (max-width:860px){.rodape__tc{max-width:none}}
