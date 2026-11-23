@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
 Disallow: /obrigado
+Disallow: /api/
 
 Sitemap: https://www.joaodosgranitos.com.br/sitemap.xml

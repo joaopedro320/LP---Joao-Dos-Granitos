@@ -15,6 +15,8 @@ Produto contratado: Estruturação de Marca (Estrutura Google + Social Media Orb
 ├── site.webmanifest
 ├── favicon.ico
 ├── vercel.json           cleanUrls, cache dos assets, headers de segurança
+├── package.json          dependência da função (@vercel/blob)
+├── api/curriculo.js      recebe o currículo do Trabalhe conosco
 └── assets/
     ├── css/style.css
     ├── js/main.js
@@ -68,6 +70,25 @@ Sem Google Apps Script, então segue o padrão: o formulário monta a mensagem c
 ## Validador de LP (QH4)
 
 `index.html` e `obrigado.html` carregam o script do QH4 LP Validator (`app-validacao-lp-sapp-validacao-lp.vercel.app/api/t`, `data-lp="lp-joao-dos-granitos"`). Não remover.
+
+## Trabalhe conosco (pedido do cliente, 19/11)
+
+Botão "Enviar currículo" no rodapé abre uma janela com nome completo, e-mail, telefone, currículo (PDF ou Word, até 4 MB) e o aceite de uso dos dados. O link `#trabalhe-conosco` também abre a janela direto, então dá pra divulgar.
+
+Como o currículo chega no WhatsApp: link de WhatsApp não leva anexo. Então a LP manda o arquivo pra função `api/curriculo.js`, que guarda no **Vercel Blob** e devolve um link. A mensagem do WhatsApp sai com nome, e-mail, telefone e esse link do currículo.
+
+**Pra ativar o upload (uma vez só, no painel da Vercel):**
+1. Projeto `lp-joao-dos-granitos` > **Storage** > **Create Database** > **Blob**.
+2. Acesso **Public**, região **gru1 (São Paulo)**, e conectar ao projeto em todos os ambientes. Isso cria a variável `BLOB_READ_WRITE_TOKEN`.
+3. Fazer um redeploy.
+
+**Enquanto o Blob não estiver ligado** (ou se o upload falhar ou demorar mais de 25 s), a LP usa o plano B: abre o WhatsApp com os dados e orienta o candidato a anexar o arquivo direto na conversa. Nada trava.
+
+Detalhes:
+- A função confere tipo e assinatura do arquivo (PDF/DOC/DOCX de verdade), limite de 4 MB e um campo isca contra robôs.
+- Os arquivos ficam em `curriculos/AAAA-MM-DD-nome-<sufixo aleatório>.pdf`. O link é público mas impossível de adivinhar. Apague os currículos antigos no painel (Storage > Blob) de tempos em tempos.
+- Rastreamento: `trabalhe_conosco_aberto` e `candidatura_enviada` (`curriculo`: `link` ou `anexo_no_whatsapp`). **Não** é lead: a candidatura não passa pela página de obrigado e não dispara `generate_lead`, então não suja a conversão de orçamento.
+- `package.json` só existe pra instalar `@vercel/blob` na função. O site continua estático, sem build.
 
 ## Checklist de SEO
 
